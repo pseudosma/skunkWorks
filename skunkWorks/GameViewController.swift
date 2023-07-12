@@ -13,10 +13,15 @@ class GameViewController: NSViewController {
     @IBOutlet var arView: ARView!
     
     override func awakeFromNib() {
-        // Load the "Box" scene from the "Experience" Reality File
-        let boxAnchor = try! Experience.loadBox()
+        super.viewDidLoad()
+        arView.environment.background = .color(.gray)
+        //arView.isUserInteractionEnabled = true
+        //arView.isMultipleTouchEnabled = true
         
-        // Add the box anchor to the scene
-        arView.scene.anchors.append(boxAnchor)
+        let m = ModelEntity.init(mesh: MeshResource.generateBox(size: 0.5), materials: [UnlitMaterial.init(color: .red)])
+        let a = AnchorEntity.init(world: simd_float3(0, 0, 0))
+        a.addChild(m)
+        
+        arView.scene.anchors.append(a)
     }
 }
